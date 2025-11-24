@@ -1,15 +1,13 @@
-# COMP3123 Assignment 2 — Full Stack App
+# COMP3123 Assignment 2 — Employee Management
 
 Student: 100775883
 
-Project: employee management (frontend + backend)
+Project overview
+----------------
+This repository contains a full-stack employee management application for COMP3123 Assignment 2.
 
-Overview
---------
-This repository contains a full-stack application for COMP3123 Assignment 2. The project includes:
-
-- `backend/` — Node.js + Express API with MongoDB (Mongoose). Features: signup/login, JWT auth, employee CRUD, image upload (multer), search, and Dockerfile.
-- `frontend/` — React app (Create React App) with Login/Signup, Employee list, Add/Edit/Details screens, Axios service, routing, and Dockerfile.
+- `backend/` — Node.js + Express API with MongoDB (Mongoose). Features: signup/login, JWT authentication, employee CRUD, image upload (multer), search, and Dockerfile.
+- `frontend/` — React app (Create React App) with Login/Signup, Employee list, Add/Edit/Details screens, Axios service, and routing.
 
 Quick status
 ------------
@@ -24,18 +22,20 @@ Prerequisites
 
 Environment (.env)
 -------------------
-Create a `.env` file in `backend/` with the following variables (example):
+Create a `.env` file in `backend/` with these variables (example):
 
-```
+```env
 MONGODB_URI=mongodb+srv://<user>:<pw>@cluster0.example.mongodb.net/comp3123_assigment1
 PORT=3000
 JWT_SECRET=your_jwt_secret_here
 ```
 
-Do NOT commit `.env` to the repo. It is included in `.gitignore`.
+Do NOT commit `.env` to the repo. It is listed in `.gitignore`.
 
-Run Locally (without Docker)
----------------------------
+Running the application
+-----------------------
+Run locally without Docker
+
 1. Backend
 
 ```powershell
@@ -54,10 +54,9 @@ npm start
 ```
 
 Run with Docker Compose (recommended)
------------------------------------
-From the project root:
 
 ```powershell
+cd <project-root>
 docker compose build --no-cache
 docker compose up -d
 
@@ -66,41 +65,44 @@ docker compose logs -f backend
 docker compose logs -f frontend
 ```
 
-Services and URLs
------------------
-- Backend API: http://localhost:3000
-- Frontend: http://localhost:3001
+Service URLs
+------------
+- Backend API base: http://localhost:3000/api/v1
+- Frontend: http://localhost:3001 (when running via docker-compose)
 
-API Endpoints (summary)
-------------------------
-- POST /api/v1/user/signup
+API endpoints (summary)
+-----------------------
+- POST `/api/v1/user/signup`
   - Body JSON: { username, email, password }
-- POST /api/v1/user/login
-  - Body JSON: { email | username, password }
+- POST `/api/v1/user/login`
+  - Body JSON: { email, password }
   - Response: { token }
-- GET /api/v1/emp/employees
+- GET `/api/v1/emp/employees`
   - Query params: `department`, `position`, `q` (search)
-- POST /api/v1/emp/employees (protected)
-  - Multipart form-data: fields first_name,last_name,email,position,salary,date_of_joining,department and file field `image`
-- GET /api/v1/emp/employees/:id
-- PUT /api/v1/emp/employees/:id (protected)
-  - Multipart form-data: same fields as POST; `image` optional
-- DELETE /api/v1/emp/employees?eid=<id> (protected)
+- POST `/api/v1/emp/employees` (protected)
+  - Multipart form-data: first_name, last_name, email, position, salary, date_of_joining, department, `image` (file)
+- GET `/api/v1/emp/employees/:id`
+- PUT `/api/v1/emp/employees/:id` (protected)
+  - Multipart form-data as for POST; `image` optional
+- DELETE `/api/v1/emp/employees?eid=<id>` (protected)
 
 Sample curl commands
 --------------------
 Signup:
-```
+
+```powershell
 curl -X POST http://localhost:3000/api/v1/user/signup -H "Content-Type: application/json" -d '{"username":"student1","email":"student1@example.com","password":"Password1"}'
 ```
 
 Login (save token):
-```
+
+```powershell
 curl -X POST http://localhost:3000/api/v1/user/login -H "Content-Type: application/json" -d '{"email":"student1@example.com","password":"Password1"}'
 ```
 
 Create employee with image:
-```
+
+```powershell
 curl -X POST http://localhost:3000/api/v1/emp/employees \
   -H "Authorization: Bearer <TOKEN>" \
   -F "first_name=John" -F "last_name=Smith" -F "email=j.smith@example.com" \
@@ -113,31 +115,26 @@ Notes on images
 - Uploaded images are stored in `backend/uploads` and served at `/uploads/<filename>`.
 - The backend removes previous images when updating and deletes images when removing an employee.
 
-Testing and Validation
+Testing and validation
 ----------------------
-- The backend validates required fields and returns helpful error messages for validation and duplicate key errors.
-- Protected endpoints require `Authorization: Bearer <token>` header from login response.
+- The backend validates required fields and returns clear error messages for validation and duplicate key errors.
+- Protected endpoints require `Authorization: Bearer <token>` from the login response.
 
-Screenshots required for submission (single PDF)
-------------------------------------------------
-You must provide one single file (PDF) containing the following screenshots (with short captions):
+Screenshots and submission
+--------------------------
+For submission, provide a single PDF named `100775883_assignment2_screenshots.pdf` containing the required screenshots (see `SCREENSHOTS_TEMPLATE.md` for exact filenames and captions). Save the PDF in the repo root.
 
-- MongoDB data (1 screenshot)
-- REST API tests with Postman or curl (5–8 screenshots): signup, login (token), create employee, get employees, update, delete, search
-- Frontend CRUD operations (5–8 screenshots): Login screen, Employee List, Add Employee (form), View Details (image visible), Edit Employee, Delete confirmation
-- Search screen (2–3 screenshots)
+Packaging for submission (D2L)
+-----------------------------
+Before creating the ZIP for submission, remove `node_modules` folders:
 
-Packaging for D2L
------------------
-Before zipping your submission:
-
-1. Remove `node_modules` folders from both backend and frontend
-```
-# from project root (PowerShell)
+```powershell
+# from project root
 Remove-Item -Recurse -Force .\backend\node_modules -ErrorAction SilentlyContinue
 Remove-Item -Recurse -Force .\frontend\node_modules -ErrorAction SilentlyContinue
 ```
-2. Create a ZIP containing the project files and the screenshots PDF and README
+
+Create the ZIP (example):
 
 ```powershell
 Compress-Archive -Path .\* -DestinationPath ..\100775883_comp3123_assignment2.zip
@@ -145,18 +142,15 @@ Compress-Archive -Path .\* -DestinationPath ..\100775883_comp3123_assignment2.zi
 
 Submission checklist
 --------------------
-- [ ] GitHub repository link(s) (frontend and backend or single repo)
-- [ ] README.md included in repo with setup/run instructions
-- [ ] Single screenshots PDF (named `100775883_assignment2_screenshots.pdf`)
-- [ ] ZIP package (no node_modules) uploaded to D2L
-- [ ] (Optional) Live deployment links included in README
+- GitHub repository link (single repo)
+- `README.md` with run instructions
+- `100775883_assignment2_screenshots.pdf` in repo root
+- ZIP package (no `node_modules`) uploaded to D2L
 
-What I can do next for you
--------------------------
-- Draft and commit this README to the repo (done).
-- Provide a screenshots template file to paste images into (created next).
-- Help you push the repo to GitHub and create the ZIP for D2L.
+Postman collection
+-----------------
+If you want to include the Postman collection and environment files, export them and add them to the repo before finalizing the ZIP.
 
 Contact
 -------
-If you want me to push changes, prepare the ZIP, or deploy the app, tell me and I will continue.
+If any run instructions need updating or if you want the Postman collection generated and added to the repo, I can update the files on request.
