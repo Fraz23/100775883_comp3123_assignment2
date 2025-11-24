@@ -1,0 +1,40 @@
+version: '3.8'
+services:
+  mongo:
+    image: mongo:6.0
+    restart: unless-stopped
+    environment:
+      MONGO_INITDB_DATABASE: comp3123_assigment1
+    volumes:
+      - mongo-data:/data/db
+    ports:
+      - '27017:27017'
+
+  backend:
+    build: ./backend
+    restart: unless-stopped
+    environment:
+      - MONGODB_URI=mongodb://mongo:27017/comp3123_assigment1
+      - PORT=3000
+      - JWT_SECRET=super_secret_change_me
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./backend/uploads:/usr/src/app/uploads
+    depends_on:
+      - mongo
+
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - REACT_APP_API_URL=http://backend:3000/api/v1
+      - PORT=3001
+    ports:
+      - '3001:3001'
+    depends_on:
+      - backend
+
+volumes:
+  mongo-data:
