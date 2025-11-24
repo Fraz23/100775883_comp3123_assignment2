@@ -1,0 +1,67 @@
+{
+	"info": {
+		"_postman_id": "bee215f5-b57d-468b-9c65-4ec8f2c5436a",
+		"name": "Comp3123 assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "48822505",
+		"_collection_link": "https://fraz23-9488181.postman.co/workspace/Faraz-S's-Workspace~8ae0c4ab-d6e3-472b-877c-2ba2d4b521ea/collection/48822505-bee215f5-b57d-468b-9c65-4ec8f2c5436a?action=share&source=collection_link&creator=48822505"
+	},
+	"item": [
+		{
+			"name": "User Signup",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "User Login",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Get all Employees",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Create Employee",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Get Employee by ID",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Update Employee",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "New Request",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}

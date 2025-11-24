@@ -1,0 +1,7 @@
+# Ignore node modules and local env/files that should not be copied into Docker image
+node_modules
+.env
+uploads
+npm-debug.log*
+.DS_Store
+*.log
